@@ -9,6 +9,6 @@ class APILog extends Model
     protected $table = 'api_logs';
 
     protected $fillable = [
-      'method', 'ip', 'token', 'url', 'data', 'status', 'answer'
+      'token', 'method', 'ip', 'url', 'data', 'status', 'answer'
     ];
 }
