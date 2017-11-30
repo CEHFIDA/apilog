@@ -1,0 +1,32 @@
+{
+  "name": "selfreliance/apilog",
+  "type": "library",
+  "version": "1.0.1",
+  "description": "List of api logs for adminamazing",
+  "keywords": ["admin", "api log", "laravel"],
+  "homepage": "https://github.com/selfrelianceme/apilog",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "LemmaS",
+      "email": "lemmas.online@gmail.com"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Selfreliance\\Apilog\\ApiLogServiceProvider"
+       ],
+    }
+  },
+  "require": {
+    "php": ">=5.6.0",
+    "selfreliance/adminamazing": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.8"
+  },
+  "autoload": {
+    "psr-4": {"Selfreliance\\Apilog\\": "src/"}
+  }
+}
