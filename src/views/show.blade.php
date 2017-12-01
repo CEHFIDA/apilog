@@ -2,14 +2,62 @@
 
 @section('pageTitle', 'API логи')
 @section('content')
+
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-block">
+				<form name="search-form" method="GET">
+					<div class="row p-t-20">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Токен</label>
+                                <input type="text" class="form-control form-control-line" value="{{$token}}" name="token">
+                        	</div>
+	                        <div class="form-group">
+	                            <label class="control-label">IP</label>
+	                            <input type="text" class="form-control form-control-line" value="{{$ip}}" name="ip">
+	                    	</div>
+	                    </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Путь</label>
+                                <input type="text" class="form-control form-control-line" value="{{$url}}" name="url">
+                        	</div>
+	                        <div class="form-group">
+	                            <label class="control-label">Ответ</label>
+	                            <input type="text" class="form-control form-control-line" value="{{$answer}}" name="answer">
+	                    	</div>
+	                    </div>
+	                    <div class="col-md-2">   
+	                    	<div class="form-group">
+	                    		<label class="control-label">Статус</label>
+								<select multiple size="{{count($statusCodes)}}" class="form-control" name="status[]">
+								    @foreach($statusCodes as $row)
+								    <option value="{{$row->status}}">{{$row->status}}</option>
+								    @endforeach
+								</select>
+	                    	</div>
+	                    </div>	                    
+	                    <div class="col-md-2">   
+	                    	<div class="form-group">
+	                    		<label class="control-label">Метод</label>
+								<select multiple size="{{count($methods)}}" class="form-control" name="method[]">
+								    @foreach($methods as $row)
+									<option value="{{$row->method}}">{{$row->method}}</option>
+								    @endforeach
+								</select>
+	                    	</div>
+	                    </div>
+	                    <div class="col-md-4">
+	                    	<button type="submit" class="btn btn-success btn-block">Поиск</button>
+	                    </div>
+		                <div class="col-md-4">
+		                    <button type="button" class="btn btn-info btn-block clearForm">Очистить форму</button>
+		                </div>
+	                </div>
+                </form>
                 <div class="table-responsive">
-                	<form method="GET">
-                		<input value="{{$search}}" type="search" placeholder="Поиск..." name="search" class="form-control form-control-line">
-                	</form>
                 	@if(count($logs) > 0)
                     <table id="demo-foo-addrow" class="table m-t-30 table-hover no-wrap contact-list" data-page-size="10">
                         <thead>
@@ -52,9 +100,14 @@
         </div>
     </div>
 </div>
+
 @push('scripts')
-	<script src="{{ asset('vendor/adminamazing/assets/plugins/footable/js/footable.all.min.js') }}"></script>
-	<script src="{{ asset('vendor/adminamazing/assets/plugins/bootstrap-select/bootstrap-select.min.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('vendor/adminamazing/js/footable-init.js') }}"></script>
+	<script>
+		$(document).on('click', '.clearForm', function(){
+			$('form[name=search-form]').trigger('reset');
+			window.location.href = '{{route('AdminApiLog')}}';
+		});
+	</script>
 @endpush
+
 @endsection

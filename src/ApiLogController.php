@@ -10,38 +10,52 @@ class ApiLogController extends Controller
 {
 	public function index(Request $request)
 	{
-		$statusCode = $request->input('status_code');
-		$method = $request->input('method');
-		$search = $request->input('search');
+		$info = [
+			'token' => $request['token'],
+			'status' => $request['status'],
+			'method' => $request['method'],
+			'ip' => $request['ip'],
+			'data' => $request['data'],
+			'url' => $request['url'],
+			'answer' => $request['answer']
+		];
 
-		$logs = APILog::where('status', '!=', 201)->where(function ($query) use ($statusCode){
-			if($statusCode != '')
+		$logs = APILog::where('status', '!=', 201)->where(function ($query) use ($info){
+			foreach($info as $key => $value)
 			{
-				$query->where('status', $statusCode);
-			}
-		})->where(function($query) use ($method){
-			if($method != '')
-			{
-				$query->where('method', $method);
-			}
-		})->where(function($query) use ($search){
-			if($search != '')
-			{
-				$query->where('id', 'LIKE', $search)
-				->orWhere('ip', 'LIKE', $search)
-				->orWhere('url', 'LIKE', $search)
-				->orWhere('data', 'LIKE', $search)
-				->orWhere('answer', 'LIKE', $search);
+				if($value != '')
+				{
+					if(is_array($value))
+					{
+						$query->whereIn($key, $value);
+					}
+					else
+					{
+						$query->where($key, 'LIKE', $value);
+					}
+				}
 			}
 		})->orderBy('id', 'desc')->paginate(10);
 
-		$logs->appends(['status_code' => $statusCode]);
-		$logs->appends(['method' => $method]);
-		$logs->appends(['search' => $search]);
+		foreach($info as $key => $value)
+		{
+			$logs->appends([$key => $value]);
+		}
+
+		$statusCodes = APILog::distinct()->get(['status']);
+		$methods = APILog::distinct()->get(['method']);
 
 		return view('apilog::show')->with([
 			'logs' => $logs,
-			'search' => $search
+			'token' => $info['token'],
+			'status' => $info['status'],
+			'method' => $info['method'],
+			'ip' => $info['ip'],
+			'data' => $info['data'],
+			'url' => $info['url'],
+			'answer' => $info['answer'],
+			'statusCodes' => $statusCodes,
+			'methods' => $methods
 		]);
 	}
 }
