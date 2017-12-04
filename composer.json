@@ -16,7 +16,7 @@
     "laravel": {
       "providers": [
         "Selfreliance\\Apilog\\ApiLogServiceProvider"
-       ],
+       ]
     }
   },
   "require": {
