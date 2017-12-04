@@ -26,10 +26,10 @@
                         	</div>
 	                        <div class="form-group">
 	                            <label class="control-label">Ответ</label>
-	                            <input type="text" class="form-control form-control-line" value="{{$answer}}" name="answer">
+	                            <textarea rows="4" class="form-control form-control-line" name="answer">{{$answer}}</textarea>
 	                    	</div>
 	                    </div>
-	                    <div class="col-md-2">   
+	                    <div class="col-md-2">
 	                    	<div class="form-group">
 	                    		<label class="control-label">Статус</label>
 								<select multiple size="{{count($statusCodes)}}" class="form-control" name="status[]">
@@ -38,7 +38,7 @@
 								    @endforeach
 								</select>
 	                    	</div>
-	                    </div>	                    
+	                    </div>
 	                    <div class="col-md-2">   
 	                    	<div class="form-group">
 	                    		<label class="control-label">Метод</label>
